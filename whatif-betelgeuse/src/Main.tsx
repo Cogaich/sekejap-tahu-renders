@@ -56,32 +56,6 @@ const KineticWords: React.FC<{f: number; at: number; words: string[]; x: number;
   </div>
 );
 
-// Ombak Sekejap helpers (same as mars-jupiter / harimau / komodo / uranus / badak / supermoon)
-const waveY = (x: number, t: number, base: number, dir: 1 | -1) =>
-  base + Math.sin(x * 0.011 + t * 2.6) * 15 + Math.sin(x * 0.0042 - t * 1.7) * 21;
-const wavePath = (prog: number, t: number, dir: 1 | -1) => {
-  const base = dir === 1 ? H + 140 - prog * (H + 300) : -140 + prog * (H + 300);
-  let d = dir === 1 ? `M0 ${H} L0 ${waveY(0, t, base, dir)}` : `M0 0 L0 ${waveY(0, t, base, dir)}`;
-  for (let x = 60; x <= W; x += 60) d += ` L${x} ${waveY(x, t, base, dir)}`;
-  d += dir === 1 ? ` L${W} ${H} Z` : ` L${W} 0 Z`;
-  return d;
-};
-const rimPath = (prog: number, t: number, dir: 1 | -1) => {
-  const base = dir === 1 ? H + 140 - prog * (H + 300) : -140 + prog * (H + 300);
-  let d = `M0 ${waveY(0, t, base, dir)}`;
-  for (let x = 60; x <= W; x += 60) d += ` L${x} ${waveY(x, t, base, dir)}`;
-  return d;
-};
-const WaveRim: React.FC<{prog: number; t: number; dir: 1 | -1}> = ({prog, t, dir}) => (
-  <svg width={W} height={H} style={{position: 'absolute', pointerEvents: 'none'}}>
-    <path d={rimPath(prog, t, dir)} fill="none" stroke={AMBER} strokeWidth={11} strokeLinecap="round" opacity={0.95} />
-    {Array.from({length: 14}).map((_, i) => {
-      const bx = 40 + i * 76 + Math.sin(i * 7.3) * 18;
-      return <circle key={i} cx={bx} cy={waveY(bx, t, dir === 1 ? H + 140 - prog * (H + 300) : -140 + prog * (H + 300), dir) - 22 - (i % 4) * 12} r={4 + (i % 3) * 2.4} fill={CREAM} opacity={0.9} />;
-    })}
-  </svg>
-);
-
 /** Langit malam — kanvas tema seluruh video (amandemen latar 2, S1 ngikut tema).
     Dipakai ulang dari Uranus/Supermoon: bintang berkelip + ufuk utara. */
 const NightBg: React.FC<{drift?: number}> = ({drift = 0}) => {
@@ -407,18 +381,18 @@ const Scene5: React.FC = () => {
   );
 };
 
-// ---------- SCENE 6: BOOKEND + sign-off + sumber + Ombak pulang ke beige ----------
+// ---------- SCENE 6: BOOKEND + sign-off + sumber (tanpa ombak — revisi v2) ----------
 // Narasi lokal (absStart 2060): S1 "Yang pasti: sejauh ini, nol bahaya buat
 // Bumi, dan Orion bakal kehilangan bahunya selamanya." f 20-194 -> S2 "Jadi
 // kalau besok malam ada cahaya baru di Orion, kamu lagi nonton sejarah yang
 // berangkat enam ratus empat puluh tahun lalu." f 194-413 -> S3 "Aku, Kejap —
-// sampai jumpa di video berikutnya!" f 413-496. Ombak naik f 300-360 (1×,
-// pulang ke beige — pola Supermoon S6; dimundurkan dari f 200 supaya gema
-// "SEJARAH 640 TAHUN LALU" sempat dibaca selama kalimat S2).
+// sampai jumpa di video berikutnya!" f 413-496.
+// REVISI v2 (user 23 Nov 22:36): Ombak Sekejap f 300-360 DIHAPUS — ombak menutupi
+// langit malam dengan beige dan menyisakan ±4,5 dtk layar kosong (cuma beige +
+// Kejap) selama VO S2 + sign-off. Tanpa ombak, langit malam + Orion tetap
+// kelihatan sampai sign-off; durasi/cues/audio tidak berubah.
 const Scene6: React.FC = () => {
   const f = useCurrentFrame();
-  const waveProg = lin(f, 300, 360, 0, 1);
-  const jump = waveProg > 0 && waveProg < 1 ? Math.abs(Math.sin(waveProg * Math.PI * 2)) * -46 : 0;
   const srcO = lin(f, 150, 165, 0, 1) * lin(f, 195, 210, 1, 0);
   const chipsO = lin(f, 194, 210, 1, 0);
   const echoO = lin(f, 194, 210, 0, 1) * lin(f, 300, 315, 1, 0);
@@ -443,14 +417,7 @@ const Scene6: React.FC = () => {
         fontWeight: 600, fontSize: 24, color: SAGE_L, opacity: srcO, lineHeight: 1.5}}>
         Sumber: NASA · ESO · Farmers' Almanac · The Science 360
       </div>
-      {/* Ombak Sekejap pulang ke beige (1×) */}
-      {waveProg > 0 && (
-        <div style={{position: 'absolute', inset: 0, clipPath: `path('${wavePath(waveProg, f / FPS, 1)}')`, background: BEIGE}} />
-      )}
-      {waveProg > 0 && waveProg < 1 && <WaveRim prog={waveProg} t={f / FPS} dir={1} />}
-      <div style={{position: 'absolute', transform: `translateY(${jump}px)`}}>
-        <KejapAt x={320} y={1460} w={440} mood={f >= 413 ? 'senang' : 'default'} from={2060} />
-      </div>
+      <KejapAt x={320} y={1460} w={440} mood={f >= 413 ? 'senang' : 'default'} from={2060} />
     </AbsoluteFill>
   );
 };
