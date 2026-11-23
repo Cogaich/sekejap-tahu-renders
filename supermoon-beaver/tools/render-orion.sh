@@ -47,7 +47,7 @@ render_seg() {
   echo "== $(date) — render $name (frames $frames, expect $expect) =="
   npx remotion render src/index.ts Main "out/$name.mp4" --frames="$frames" --concurrency=2 --log=verbose
   local actual
-  actual=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of csv=p=0 "out/$name.mp4")
+  actual=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of csv=p=0 "out/$name.mp4" | tr -dc '0-9')
   echo "$name: expect $expect, got $actual, durasi $(( $(date +%s) - t0 )) dtk"
   [ "$actual" = "$expect" ] || { echo "SEGMENT $name GAGAL (expect $expect, got $actual)"; exit 1; }
 }
