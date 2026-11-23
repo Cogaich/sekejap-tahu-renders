@@ -14,6 +14,7 @@ echo "== $(date) — mulai setup =="
 
 # 1. Decode biner dari file .b64 (di-push via GitHub karena VM tidak bisa git push)
 #    vo.wav ditransfer sebagai FLAC lossless (52% ukuran) lalu di-decode kembali ke WAV.
+mkdir -p public public/sfx
 cat b64/vo.flac.b64.* | base64 -d > /tmp/vo.flac
 ffmpeg -y -v error -i /tmp/vo.flac public/vo.wav
 rm -f /tmp/vo.flac
