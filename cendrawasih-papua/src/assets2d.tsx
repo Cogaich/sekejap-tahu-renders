@@ -1,5 +1,5 @@
 // ============================================================
-// @sekejap.tahu — Shared 2D Asset Library (v1.21, 2026-11-25 — + SuperbBirdAsset + FemaleBirdAsset + AstrapiaAsset + PlumeBirdAsset from Cendrawasih Papua; v1.20, 2026-11-23 — + RedSupergiantAsset + OrionAsset from Betelgeuse Meledak Besok; v1.19, 2026-11-21 — + RhinoAsset from Badak Jawa; v1.18, 2026-11-21 — + UranusAsset from Uranus Oposisi; v1.17, 2026-11-20 — + SnakeAsset (Titanoboa, glide + coil) from Titanoboa, Ular 13 Meter dari Rawa Purba; v1.16, 2026-11-18 — + Moon, Sun from WHAT IF Bulan Tidak Pernah Ada?; v1.15, 2026-11-18 — + Megalodon, Tooth from Megalodon, Hiu Terbesar yang Pernah Hidup; v1.14, 2026-11-14 — + Coelacanth (blue + brown variants) from Coelacanth, Fosil Hidup dari Manado; v1.13, 2026-11-14 — + Komodo, Deer (Rusa Timor) from Komodo, Naga yang Nyata; v1.12, 2026-11-12 — + Tiger, Hair, CameraTrap from WHAT IF Harimau Jawa; v1.11, 2026-11-11 — + Moa, HaastEagle, Claw from Elang Haast vs Moa; v1.10, 2026-11-10 — + Trex, EarthZones, ChicxulubMarker from WHAT IF Asteroid; v1.9, 2026-11-09 — + FalconFly, FalconStoop, FalconHead (membrane prop), Pigeon, Speedo from Alap-Alap Kawah; v1.8 — + IcyWorld, DwarfPlanet; v1.6, 2026-11-05 — MascotAsset talking mouth); v1.5, 2026-11-05 — + Mammoth, WoollyMouse from WHAT IF Mammoth; v1.4, 2026-11-04 — + Stork (Leptoptilos robustus), Stegodon, Hobbit scale silhouette from Flores Part 2; v1.3 added Megapode, FossilBone, Cave, Egg, Chick, Mound)
+// @sekejap.tahu — Shared 2D Asset Library (v1.22, 2026-11-25 — SuperbBirdAsset display pose revised (paruh kuning + kaki + pita perisai datar, kurang creepy); v1.21, 2026-11-25 — + SuperbBirdAsset + FemaleBirdAsset + AstrapiaAsset + PlumeBirdAsset from Cendrawasih Papua; v1.20, 2026-11-23 — + RedSupergiantAsset + OrionAsset from Betelgeuse Meledak Besok; v1.19, 2026-11-21 — + RhinoAsset from Badak Jawa; v1.18, 2026-11-21 — + UranusAsset from Uranus Oposisi; v1.17, 2026-11-20 — + SnakeAsset (Titanoboa, glide + coil) from Titanoboa, Ular 13 Meter dari Rawa Purba; v1.16, 2026-11-18 — + Moon, Sun from WHAT IF Bulan Tidak Pernah Ada?; v1.15, 2026-11-18 — + Megalodon, Tooth from Megalodon, Hiu Terbesar yang Pernah Hidup; v1.14, 2026-11-14 — + Coelacanth (blue + brown variants) from Coelacanth, Fosil Hidup dari Manado; v1.13, 2026-11-14 — + Komodo, Deer (Rusa Timor) from Komodo, Naga yang Nyata; v1.12, 2026-11-12 — + Tiger, Hair, CameraTrap from WHAT IF Harimau Jawa; v1.11, 2026-11-11 — + Moa, HaastEagle, Claw from Elang Haast vs Moa; v1.10, 2026-11-10 — + Trex, EarthZones, ChicxulubMarker from WHAT IF Asteroid; v1.9, 2026-11-09 — + FalconFly, FalconStoop, FalconHead (membrane prop), Pigeon, Speedo from Alap-Alap Kawah; v1.8 — + IcyWorld, DwarfPlanet; v1.6, 2026-11-05 — MascotAsset talking mouth); v1.5, 2026-11-05 — + Mammoth, WoollyMouse from WHAT IF Mammoth; v1.4, 2026-11-04 — + Stork (Leptoptilos robustus), Stegodon, Hobbit scale silhouette from Flores Part 2; v1.3 added Megapode, FossilBone, Cave, Egg, Chick, Mound)
 // Flat SVG/div illustration components, hand-coded, brand-palette friendly.
 // USAGE: copy this file into a project's src/ and import what the video needs.
 // Check here BEFORE drawing a new asset — extend this file when a new reusable
@@ -1425,6 +1425,10 @@ export const OrionAsset: React.FC<{x: number; y: number; w: number; h: number; m
 // dahan); display 1 = pose pajangan "wajah senyum" (jubah hitam mengembang
 // jadi oval, dua bercak biru jadi "mata", perisai biru jadi "senyum").
 // Warna: hitam super-black #0B0B14, biru elektrik #35D6FF (struktural).
+// REVISI v1.22 (2026-11-25): pose pajangan dikurangi kesan "topeng melayang"
+// (umpan balik user) — paruh kuning di antara mata, "senyum" jadi pita perisai
+// dada lebar-datar (kerah, bukan busur mulut), kaki kurus di bawah oval, tepi
+// bulu bergerigi halus, glow mata dikurangi.
 export const SuperbBirdAsset: React.FC<{x: number; y: number; w: number; display?: number; hop?: number; plume?: string; opacity?: number}> =
 ({x, y, w, display = 0, hop = 0, plume = '#35D6FF', opacity = 1}) => {
   const d = Math.max(0, Math.min(1, display));
@@ -1446,22 +1450,32 @@ export const SuperbBirdAsset: React.FC<{x: number; y: number; w: number; display
           <rect x={182} y={392} width={10} height={14} fill="#1A1A26" />
           <rect x={208} y={392} width={10} height={14} fill="#1A1A26" />
         </g>
-        {/* jubah pajangan — oval hitam membesar */}
-        <g transform={`translate(200 225) scale(${cape}) translate(-200 -225)`}>
-          <ellipse cx={200} cy={225} rx={168} ry={188} fill="#0B0B14" />
-          <ellipse cx={200} cy={225} rx={168} ry={188} fill="none" stroke="#1E1E30" strokeWidth={4} opacity={0.6} />
-          {/* mata: dua bercak biru */}
+        {/* jubah pajangan — oval hitam membesar (pusat naik supaya kaki muat) */}
+        <g transform={`translate(200 205) scale(${cape}) translate(-200 -205)`}>
+          <ellipse cx={200} cy={205} rx={168} ry={172} fill="#0B0B14" />
+          {/* tepi bulu: garis putus-putus memberi gerigi halus, bukan lubang mulus */}
+          <ellipse cx={200} cy={205} rx={170} ry={174} fill="none" stroke="#1E1E30" strokeWidth={14} strokeDasharray="3 11" opacity={0.85} />
+          {/* kaki kurus — jangkar "ini burung, bukan topeng" */}
           <g opacity={d}>
-            <ellipse cx={148} cy={168} rx={22} ry={30} fill={plume} />
-            <ellipse cx={252} cy={168} rx={22} ry={30} fill={plume} />
-            <ellipse cx={148} cy={168} rx={30} ry={38} fill={plume} opacity={0.25} />
-            <ellipse cx={252} cy={168} rx={30} ry={38} fill={plume} opacity={0.25} />
-            {/* senyum: sabit biru */}
-            <path d="M118,272 Q200,352 282,272" fill="none" stroke={plume} strokeWidth={26} strokeLinecap="round" />
-            <path d="M118,272 Q200,352 282,272" fill="none" stroke="#8FE9FF" strokeWidth={8} strokeLinecap="round" opacity={0.7} />
+            <line x1={176} y1={366} x2={172} y2={400} stroke="#3A2E22" strokeWidth={7} strokeLinecap="round" />
+            <line x1={224} y1={366} x2={228} y2={400} stroke="#3A2E22" strokeWidth={7} strokeLinecap="round" />
+            <line x1={172} y1={400} x2={160} y2={406} stroke="#3A2E22" strokeWidth={5} strokeLinecap="round" />
+            <line x1={172} y1={400} x2={184} y2={406} stroke="#3A2E22" strokeWidth={5} strokeLinecap="round" />
+            <line x1={228} y1={400} x2={216} y2={406} stroke="#3A2E22" strokeWidth={5} strokeLinecap="round" />
+            <line x1={228} y1={400} x2={240} y2={406} stroke="#3A2E22" strokeWidth={5} strokeLinecap="round" />
           </g>
-          {/* paruh kecil di puncak oval */}
-          <path d="M192,44 L208,44 L200,62 Z" fill="#1A1A26" opacity={d} />
+          {/* mata: dua bercak biru (glow dikurangi) */}
+          <g opacity={d}>
+            <ellipse cx={148} cy={148} rx={22} ry={30} fill={plume} />
+            <ellipse cx={252} cy={148} rx={22} ry={30} fill={plume} />
+            <ellipse cx={148} cy={148} rx={27} ry={34} fill={plume} opacity={0.12} />
+            <ellipse cx={252} cy={148} rx={27} ry={34} fill={plume} opacity={0.12} />
+            {/* paruh kuning kecil di antara mata */}
+            <path d="M190,104 L210,104 L200,130 Z" fill="#F2C94C" />
+            {/* perisai dada: pita LEBAR dan DATAR (kerah), bukan busur senyum */}
+            <path d="M92,258 Q200,284 308,258 L308,282 Q200,308 92,282 Z" fill={plume} />
+            <path d="M100,262 Q200,286 300,262" fill="none" stroke="#8FE9FF" strokeWidth={5} strokeLinecap="round" opacity={0.6} />
+          </g>
         </g>
       </svg>
     </div>
